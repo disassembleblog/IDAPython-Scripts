@@ -2,7 +2,8 @@
 Author: 		Ionut Iacob
 Functionality: 	Add breakpoints in IDA on the functions from the bpFuncs list.
 At the end of the script, a summary is printed on the output of IDA.
-Aate: 			19.12.2016
+Aate: 			20.12.2016
+Version			0.2
 '''
 from idaapi import *
 import idc
@@ -10,7 +11,8 @@ import idautils
 
 print("\n")*10
 
-bpFuncs = ["WriteFile" ,"GetCurrentProcess", "CreateEventW", "WriteProcessMemory" , "VirtualAlloc" , "VirtualProtect" , "SetSecurityDescriptorDacl" , "ResumeThread" , "RegSetValueExA" , "Process32First" , "Process32Next" , "OpenProcessToken" , "LookupPrivilegeValueA" , "LoadResource" , "LockResource" , "GetProcAddress" , "LoadLibraryExA" , "LoadLibraryA" , "GetWindowsDirectoryA" , "GetTickCount" , "GetTempPathA" , "GetSystemTime" , "GetDriveTypeA" , "FindFirstFileA" , "FindNextFileA" , "EnumWindows" , "DeleteFileA" , "CreateToolhelp32Snapshot" , "CreateThread" , "CreateProcessA" , "CreateFileW" , "CreateFileA" , "CopyFileA"]
+# pentru a evita duplicate de genul CreateProcessW si CreateProcessA, ar trebui parsat tabela de IAT si daca de acolo se potriveste CreateProcess pe tabela, breakpoint
+bpFuncs = ["WriteFile" ,"GetCurrentProcess", "CreateEventW", "WriteProcessMemory" , "VirtualAlloc" , "VirtualProtect" , "SetSecurityDescriptorDacl" , "ResumeThread" , "RegSetValueExA" , "Process32First" , "Process32Next" , "OpenProcessToken" , "LookupPrivilegeValueA" , "LoadResource" , "LockResource" , "GetProcAddress" , "LoadLibraryExA" , "LoadLibraryA" , "GetWindowsDirectoryA" , "GetTickCount" , "GetTempPathA" , "GetSystemTime" , "GetDriveTypeA" , "FindFirstFileA" , "FindNextFileA" , "EnumWindows" , "DeleteFileA" , "CreateToolhelp32Snapshot" , "CreateThread" , "CreateProcessA" ,"CreateProcessInternalW" ,"CreateProcessW" , "CreateFileW" , "CreateFileA" , "CopyFileA", "AdjustTokenPrivileges", "LookupPrivilegeValueW", "RegDeleteKeyExW", "OpenClipboard", "SetClipboardData", "InternetCrackUrl", "InternetConnect", "HttpOpenRequest", "HttpSendRequest", "InternetReadFile", "InternetOpen", "WSAStartup", "socket", "bind", "listen", "accept", "recv", "shutdown", "getaddrinfo", "connect", "send"]
 notFound = []	# functii negasite
 objFoundFuncs = [] # lista pentru functii gasite
 
@@ -19,6 +21,8 @@ for bpFunc in bpFuncs:
 	if addr == BADADDR:
 		notFound.append(bpFunc)
 	else:
+		if len(list(XrefsTo(addr,0)))==0:
+			notFound.append(bpFunc)
 		for xref in XrefsTo(addr, 0):
 			buff = GetMnem(xref.frm)
 			if xref.type in (16,17):	#Code_Near_Call
@@ -29,7 +33,7 @@ for objFoundFunc in objFoundFuncs:
 	idc.AddBpt(objFoundFunc.frm)
 
 print("Found and set a no. of {} BPs.".format(len(objFoundFuncs)))
-print("These functions where not found: {}".format(notFound))
+print("These functions where not found: {}/{} -> {}".format(len(notFound),len(bpFuncs),notFound))
 
 
 
