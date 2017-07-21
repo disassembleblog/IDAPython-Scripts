@@ -2,9 +2,9 @@
 Author: 		Ionut Iacob
 Functionality: 	Add breakpoints in IDA on the functions from the bpFuncs list.
 At the end of the script, a summary is printed on the output of IDA.
-Date: 			20.1.2017
-Version			0.22
-to to:	bp "call eax", call to a function with an abnormal ret or jmp (red)
+Date: 			20.07.2017
+Version			0.92
+to to:	bp "call eax", call to a function with an abnormal ret or jmp at it's end (red ending)
 '''
 from idaapi import *
 import idc
@@ -13,7 +13,7 @@ import idautils
 print("\n")*10
 
 # pentru a evita duplicate de genul CreateProcessW si CreateProcessA, ar trebui parsat tabela de IAT si daca de acolo se potriveste CreateProcess pe tabela, breakpoint
-bpFuncs = ["WriteFile" ,"GetCurrentProcess", "CreateEventW", "WriteProcessMemory" , "VirtualAlloc" , "VirtualProtect" , "SetSecurityDescriptorDacl" , "ResumeThread" , "RegSetValueExA" , "Process32First" , "Process32Next" , "OpenProcessToken" , "LookupPrivilegeValueA" , "LoadResource" , "LockResource" , "GetProcAddress" , "LoadLibraryExA" , "LoadLibraryA" , "GetWindowsDirectoryA" , "GetTickCount" , "GetTempPathA" , "GetSystemTime" , "GetDriveTypeA" , "FindFirstFileA" , "FindNextFileA" , "EnumWindows" , "DeleteFileA" , "CreateToolhelp32Snapshot" , "CreateThread" , "CreateProcessA" ,"CreateProcessInternalW" ,"CreateProcessW" , "CreateFileW" , "CreateFileA" , "CopyFileA", "AdjustTokenPrivileges", "LookupPrivilegeValueW", "RegDeleteKeyExW", "OpenClipboard", "SetClipboardData", "InternetCrackUrl", "InternetConnect", "HttpOpenRequest", "HttpSendRequest", "InternetReadFile", "InternetOpen", "WSAStartup", "socket", "bind", "listen", "accept", "recv", "shutdown", "getaddrinfo", "connect", "send", "ShellExecuteExW", "CryptDecrypt", "CryptEncrypt", "CryptAcquireContextW" ,"CryptImportKey"]
+bpFuncs = ["accept","bind","connect","CopyFileA","CopyFileW","CreateEventW","CreateFileA","CreateFileW","CreateMutexW","CreatePipe","CreateProcessA","CreateProcessInternalW","CreateProcessW","CreateServiceA","CreateThread","CreateToolhelp32Snapshot","CryptAcquireContextW","CryptCreateHash","CryptDecrypt","CryptDestroyHash","CryptDestroyKey","CryptEncrypt","CryptExportKey","CryptGenKey","CryptGetHashParam","CryptHashData","CryptImportKey","CryptImportPublicKeyInfo","CryptProtectData","DeleteFileA","DeviceIoControl","FindFirstFileA","FindFirstFileExA","FindNextFileA","getaddrinfo","GetAsyncKeyState","GetCurrentProcess","GetDriveTypeA","GetDriveTypeW","GetForegroundWindow","GetKeyState","GetProcAddress","GetSystemTime","GetTempPathA","GetTickCount","GetWindowsDirectoryA","GlobalAddAtom","GlobalGetAtomName","HttpOpenRequest","HttpSendRequest","InternetConnect","InternetCrackUrl","InternetOpen","InternetReadFile","listen","LoadLibraryA","LoadLibraryExA","LoadResource","LockResource","LookupPrivilegeValueA","LookupPrivilegeValueW","MapViewOfFile","memcpy","NtSetContextThread","OpenClipboard","OpenMutexW","OpenProcessToken","OpenSCManagerA","OpenServiceW","Process32First","Process32Next","Process32NextW","recv","RegDeleteKeyExW","RegQueryValueExA","RegSetValueExA","ResumeThread","RtlMoveMemory","send","SetClipboardData","SetEndOfFile","SetSecurityDescriptorDacl","SetThreadContext","ShellExecuteExA","ShellExecuteExW","shutdown","socket","StartServiceCtrlDispatcherA","StartServiceCtrlDispatcherW","VirtualAlloc","VirtualAllocEx","VirtualProtect","WriteFile","WriteProcessMemory","WSAStartup","AdjustTokenPrivileges","CallNextHookEx","ControlService","CreateMutexA","CreateServiceW","EnumWindows","FindFirstFileW","FindResourceW","GetThreadContext","IsDebuggerPresent","memcpy","NtResumeThread","OpenProcess","OpenServiceA","Process32FirstW","RegisterServiceCtrlHandlerA","RegQueryValueExW","RegSetValueExW","SetFilePointer","SetSecurityDescriptorDacl","SetServiceStatus","SetUnhandledExceptionFilter","SetWindowsHookExW","ShellExecuteA","TerminateProcess","UnhandledExceptionFilter","WinHttpConnect","WinHttpOpen","WinHttpOpenRequest","WinHttpSendRequest","ZwAllocateVirtualMemory", "QueueUserAPC","SuspendThread","OpenThread","Thread32First","Thread32Next","SetWindowsHookEx","","","",""]
 notFound = []				# unfound functions
 objFoundFuncs = []		 	# found functions
 
@@ -44,3 +44,8 @@ print("Breakpoint script finished. Check breakpoint window.")
 #define fl_JF   18              // Jump Far
 #define fl_JN   19              // Jump Near
 #define fl_F    21              // Ordinary flow
+
+
+
+# atombombing code injection 
+# "ZwAllocateVirtualMemory", "VirtualAlloc", "memcpy", "RtlMoveMemory", "NtSetContextThread", "GlobalAddAtom", "GlobalGetAtomName",
