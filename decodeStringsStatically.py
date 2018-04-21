@@ -1,5 +1,5 @@
 import idaapi, idc, idautils
-
+# Decryption function must be reversed and written in python
 funcName = LocByName('fDecodeString1')
 
 funcXrefs = CodeRefsTo(funcName,1)
