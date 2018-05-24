@@ -2,8 +2,8 @@
 Author: 		Ionut Iacob
 Functionality: 	Add breakpoints in IDA on the functions from the bpFuncs list.
 At the end of the script, a summary is printed on the output of IDA.
-Date: 			21.04.2018
-Version			2.0
+Date: 			24.05.2018
+Version			2.1
 '''
 import idaapi
 import idc
@@ -34,6 +34,22 @@ def GetImports():
 
 def AddBreakpoint(iatList, breakList):
 
+    def GetProcAddressAPIString(eipaddr):
+        instr = PrevHead(eipaddr,SegStart(eipaddr))
+    
+        pushes = []
+
+        while(len(pushes)<2):
+            if(GetMnem(instr)=='push'):
+                pushes.append(instr)
+            instr = PrevHead(instr,SegStart(eipaddr))
+
+
+        encodedStr = GetOperandValue(pushes[1],0)
+        print("Arg @ {:08X} points to: {}".format(instr,GetString(encodedStr)))
+        
+        return GetString(encodedStr)
+
     def IsBreakItemInIAT(breakItem,iatList):
         for iatItemName in iatList:
             if breakItem in iatItemName:
@@ -59,6 +75,9 @@ def AddBreakpoint(iatList, breakList):
                         if xref.type in (16,17):
                             idc.AddBpt(xref.frm)
                             MakeComm(xref.frm,apiName)
+                            if(apiName == 'GetProcAddress'):
+                                resolveName = GetProcAddressAPIString(xref.frm)
+                                MakeComm(xref.frm,"{}({})".format(apiName,resolveName))
         return 0
 
     print('Adding breakpoints.')
