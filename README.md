@@ -2,4 +2,4 @@
 This project is for testing and learning purpouses.
 Nothing special here or revolotionary.
 
-Some of these script are my own work, some copied from other places.
+Most of these scripts are my own work, but some copied from other places and addapted for my own needs.
