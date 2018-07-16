@@ -1,3 +1,10 @@
+'''
+Functionality: 	Decrypt strings inside an IDB by statically reversing the executable.
+Date: 			05.02.2018
+Version			0.2
+Details: 		Rename the function name at line 10;
+'''
+
 import idaapi, idc, idautils
 # Decryption function must be reversed and written in python
 funcName = LocByName('fDecodeString1')

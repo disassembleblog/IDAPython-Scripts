@@ -1,5 +1,9 @@
 '''
-#### THIS SCRIPT IS AN EXAMPLE OF HOW TO DEOBFUSCATE STRING USING A FUNCTION LIKE THE PROTOTYPE FROM LINE 5
+Functionality: 	Decrypt strings inside an IDB by emulating the executable inside Bochs.
+Date: 			05.02.2018
+Version			0.2
+Details: 
+
 create a proper function type and name in you IDB
 set the "fDecodeString1" to you function name at lines: -15- and -50-
 Ex: int ___cdecl decode1 (char*, char*, int)

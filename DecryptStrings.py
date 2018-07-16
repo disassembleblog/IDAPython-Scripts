@@ -1,5 +1,8 @@
-# Decrypt strings inside: f65a4dfeef0a7b5d539ab889d8badf0100017ebe11a9cb784882813ddbf3a00c
-
+'''
+Functionality: 	Display and Add comments with the decrypted strings for the following DLL: f65a4dfeef0a7b5d539ab889d8badf0100017ebe11a9cb784882813ddbf3a00c
+Date: 			13.07.2018
+Version			0.1
+'''
 import idaapi, idc, idautils, re, json
 
 def GetString(instr):
