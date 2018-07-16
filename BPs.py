@@ -1,5 +1,4 @@
 '''
-Author: 		Ionut Iacob
 Functionality: 	Add breakpoints in IDA on the functions from the bpFuncs list.
 At the end of the script, a summary is printed on the output of IDA.
 Date: 			24.05.2018

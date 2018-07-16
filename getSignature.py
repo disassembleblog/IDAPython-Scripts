@@ -1,6 +1,5 @@
 import idaapi, idc
 '''
-Author: 		Ionut Iacob
 Functionality: 	Get opcodes from selected area in IDAPro
 Date: 			21.04.2018
 Version			1.0

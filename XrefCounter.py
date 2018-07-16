@@ -1,3 +1,7 @@
+'''
+Display each function how many times it's referenced in the code
+'''
+
 from idaapi import *
 import operator
 

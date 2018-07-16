@@ -1,3 +1,6 @@
+'''
+Display all XORs inside a IDB to rapidly identify encryption routines
+'''
 from idaapi import *
 funcs = Functions()
 notFound = 1

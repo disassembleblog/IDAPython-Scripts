@@ -1,10 +1,10 @@
-import idaapi, idc, idautils
 '''
-Author: 		Ionut Iacob
 Functionality: 	Search for x86 instructions used in detecting VMWare	see: https://www.trapkit.de/tools/scoopyng/index.html
 Date: 			21.04.2018
 Version			1.0
 '''
+import idaapi, idc, idautils
+
 heads = Heads(SegStart(ScreenEA()),SegEnd(ScreenEA()))
 
 antiVMAddr = []
