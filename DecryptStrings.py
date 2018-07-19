@@ -1,5 +1,5 @@
 '''
-Functionality: 	Display and Add comments with the decrypted strings for the following DLL: f65a4dfeef0a7b5d539ab889d8badf0100017ebe11a9cb784882813ddbf3a00c
+Functionality: 	Display and Add comments with the decrypted strings for the following DLL: c63a7fbc1b249e387d031361a1d3773ac7113f83b964f12a82ffad6a9525a62e
 Date: 			13.07.2018
 Version			0.1
 '''
